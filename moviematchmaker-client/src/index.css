@@ -20,4 +20,5 @@ footer {
   color: white;
   display: grid;
   place-items: center;
+  height: 8vh;
 }
