@@ -1,7 +1,7 @@
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 main {
@@ -14,7 +14,7 @@ main {
 }
 
 footer {
-  background-color: black;
+  background-color: #1b2430;
   height: 3rem;
   margin-top: auto;
   color: white;

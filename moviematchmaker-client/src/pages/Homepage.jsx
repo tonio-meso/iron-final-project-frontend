@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+// import service from "./../service/api";
 
 const Homepage = () => {
   const [movies, setMovies] = useState([]);
@@ -8,9 +9,8 @@ const Homepage = () => {
   useEffect(() => {
     const fetchDataForTheCube = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/allmovies/movie-picture"
-        );
+        ///fix the url
+        const response = await axios.get("http://localhost:3000/api/allmovies");
         setMovies(response.data);
       } catch (error) {
         console.log(error);

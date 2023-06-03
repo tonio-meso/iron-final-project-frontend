@@ -1,5 +1,10 @@
 import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
 import Homepage from "./../src/pages/Homepage";
+import Myaccount from "./pages/Myaccount";
+import About from "./pages/About";
+import Selectionform from "./pages/Selectionform";
+import Mycollection from "./pages/Mycollection";
 import SwipePage from "./pages/SwipePage";
 import MovieSuggestion from "./pages/MovieSuggestion";
 
@@ -7,9 +12,17 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Homepage />}></Route>
-        <Route path="/swipepage" element={<SwipePage />}></Route>
-        <Route path="/moviesuggestion" element={<MovieSuggestion />}></Route>
+        {" "}
+        {/* we wrapp all the component with the layout */}
+        <Route element={<Layout />}>
+          <Route path="/" element={<Homepage />}></Route>
+          <Route path="/about" element={<About />}></Route>
+          <Route path="/myaccount" element={<Myaccount />}></Route>
+          <Route path="/selectionform" element={<Selectionform />}></Route>
+          <Route path="/mycollection" element={<Mycollection />}></Route>
+          <Route path="/swipepage" element={<SwipePage />}></Route>
+          <Route path="/moviesuggestion" element={<MovieSuggestion />}></Route>
+        </Route>
       </Routes>
     </>
   );
