@@ -6,12 +6,14 @@ export const AuthContext = createContext();
 const AuthContextWrapper = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // should be remove
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false); // Add isFormSubmitted state to handle the form
 
   useEffect(() => {
     // execute authuser
     authenticateUser();
   }, []);
+
   const authenticateUser = async () => {
     try {
       // Get the token
@@ -29,17 +31,21 @@ const AuthContextWrapper = ({ children }) => {
         // Set is logged in to true.
         setUser(response.data);
         setIsLoggedIn(true);
-        setIsLoading(false);
+        setIsLoading(false); // should be remove
+        setIsFormSubmitted(response.data.isFormSubmitted); // Set isFormSubmitted state
+        // console.log("isFormSubmitted: on token", isFormSubmitted); // to track where i loose it
       } else {
         setUser(null);
         setIsLoggedIn(false);
-        setIsLoading(false);
+        setIsLoading(false); // should be remove
+        setIsFormSubmitted(false); // Set isFormSubmitted state
+        // console.log("isFormSubmitted: on don't have a token", isFormSubmitted);
       }
     } catch (error) {
       console.log(error);
       setUser(null);
       setIsLoggedIn(false);
-      setIsLoading(false);
+      setIsLoading(false); // should be remove
     }
   };
   // add here the possibility to log out
@@ -49,13 +55,30 @@ const AuthContextWrapper = ({ children }) => {
     setIsLoggedIn(false);
   };
 
+  useEffect(() => {
+    const fetchIsFormSubmitted = async () => {
+      try {
+        const response = await service.get("/api/form");
+        setIsFormSubmitted(response.data.isFormSubmitted);
+        localStorage.setItem("isFormSubmitted", response.data.isFormSubmitted);
+        console.log("isFormSubmitted: on refresh", isFormSubmitted);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchIsFormSubmitted();
+  }, []);
+
   const values = {
     user,
     setUser,
     authenticateUser,
     setIsLoggedIn,
     isLoggedIn,
-    isLoading,
+    isLoading, // should be remove
+    isFormSubmitted, // Add isFormSubmitted to the values
+    setIsFormSubmitted, // Add setIsFormSubmitted to the values
     logout,
   };
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

@@ -3,11 +3,11 @@ import axios from "axios";
 // import { useKeenSlider } from "react-keen-slider";
 // import "keen-slider/keen-slider.min.css";
 
-const MovieSlider = () => {
+const Swiper = () => {
   console.log("here my swipe page");
   // const [movies, setMovies] = useState(0)
   // const [currentSlide,]
 
-  return <div>hello</div>;
+  return <div>The swipe page</div>;
 };
-export default MovieSlider;
+export default Swiper;

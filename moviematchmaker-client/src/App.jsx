@@ -5,7 +5,7 @@ import Myaccount from "./pages/Myaccount";
 import About from "./pages/About";
 import Selectionform from "./pages/Selectionform";
 import Mycollection from "./pages/Mycollection";
-import SwipePage from "./pages/SwipePage";
+import Swiper from "./pages/SwipePage";
 import MovieSuggestion from "./pages/MovieSuggestion";
 import AuthForm from "./components/Authform";
 
@@ -25,7 +25,7 @@ function App() {
           </Route>
           <Route path="/selectionform" element={<Selectionform />}></Route>
           <Route path="/mycollection" element={<Mycollection />}></Route>
-          <Route path="/swipepage" element={<SwipePage />}></Route>
+          <Route path="/swipepage" element={<Swiper />}></Route>
           <Route path="/moviesuggestion" element={<MovieSuggestion />}></Route>
         </Route>
       </Routes>

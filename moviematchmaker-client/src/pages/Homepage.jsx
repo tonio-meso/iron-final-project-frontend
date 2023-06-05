@@ -1,40 +1,42 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-import service from "./../service/api";
+import { AuthContext } from "../context/authContext";
 
 const Homepage = () => {
-  const [movies, setMovies] = useState([]);
+  const { isLoggedIn, isFormSubmitted } = useContext(AuthContext);
 
   useEffect(() => {
-    const fetchDataForTheCube = async () => {
-      try {
-        ///fix the url
-        // const response = await axios.get("http://localhost:3000/api/allmovies");
-        const response = await service.get("/api/allmovies");
-        // const response = await axios.get("/api/allmovies"); i don't understand why if i dont specifiy the beginning of the url i get a random http
-        setMovies(response.data);
-        console.log(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchDataForTheCube();
-  }, []);
+    console.log("isFormSubmitted:", isFormSubmitted);
+  }, [isFormSubmitted]);
 
   return (
-    <div>
-      <div>
-        <Link to="/selectionform">
-          <button>learn about my movie tastes</button>
-        </Link>
-      </div>
-      <div>
-        <Link to="/moviesuggestion">
-          <button>i want to watch a movie right now</button>
-        </Link>
-      </div>
-    </div>
+    <>
+      {isLoggedIn && !isFormSubmitted ? (
+        <div>
+          <Link to="/selectionform">
+            <button>Learn about my movie tastes</button>
+          </Link>
+        </div>
+      ) : null}
+      {isLoggedIn && isFormSubmitted ? (
+        <div>
+          <Link to="/swipepage">
+            <button>Start to swipe</button>
+          </Link>
+          <Link to="/moviesuggestion">
+            <button>I want to watch a movie right now</button>
+          </Link>
+        </div>
+      ) : null}
+      {!isLoggedIn ? (
+        <div>
+          <Link to="/myaccount">
+            <button>Learn about my movie tastes</button>
+          </Link>
+        </div>
+      ) : null}
+    </>
   );
 };
 
