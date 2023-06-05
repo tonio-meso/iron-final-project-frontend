@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
+import service from "../service/api";
 
 const AuthForm = ({ mode }) => {
   const [email, setEmail] = useState("");
@@ -17,17 +18,11 @@ const AuthForm = ({ mode }) => {
       const userToSubmit = { email, password, pseudo };
 
       if (mode === "Signup") {
-        const response = await axios.post(
-          "http://localhost:3000/auth/signup",
-          userToSubmit
-        );
+        const response = await service.post("/auth/signup", userToSubmit);
         console.log(response.data); // Handle the response accordingly
         navigate("/auth/login");
       } else {
-        const response = await axios.post(
-          "http://localhost:3000/auth/login",
-          userToSubmit
-        );
+        const response = await service.post("/auth/login", userToSubmit);
         console.log(response.data); // Handle the response accordingly
         localStorage.setItem("token", response.data.authToken);
         setError("");
