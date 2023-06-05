@@ -18,11 +18,11 @@ function App() {
         <Route element={<Layout />}>
           <Route path="/" element={<Homepage />}></Route>
           <Route path="/about" element={<About />}></Route>
+          <Route path="/myaccount" element={<Myaccount />}></Route>
           <Route path="/auth">
             <Route path="login" element={<AuthForm mode="Log in" />} />
             <Route path="signup" element={<AuthForm mode="Signup" />} />
           </Route>
-          <Route path="/myaccount" element={<Myaccount />}></Route>
           <Route path="/selectionform" element={<Selectionform />}></Route>
           <Route path="/mycollection" element={<Mycollection />}></Route>
           <Route path="/swipepage" element={<SwipePage />}></Route>
