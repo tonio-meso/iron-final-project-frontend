@@ -5,9 +5,9 @@ import Myaccount from "./pages/Myaccount";
 import About from "./pages/About";
 import Selectionform from "./pages/Selectionform";
 import Mycollection from "./pages/Mycollection";
-import Swiper from "./pages/SwipePage";
-import MovieSuggestion from "./pages/MovieSuggestion";
+import Recommendations from "./pages/MovieSuggestion";
 import AuthForm from "./components/Authform";
+import Swipepage from "./pages/SwipePage";
 
 function App() {
   return (
@@ -24,9 +24,9 @@ function App() {
             <Route path="signup" element={<AuthForm mode="Signup" />} />
           </Route>
           <Route path="/selectionform" element={<Selectionform />}></Route>
+          <Route path="/swipepage" element={<Swipepage />}></Route>
           <Route path="/mycollection" element={<Mycollection />}></Route>
-          <Route path="/swipepage" element={<Swiper />}></Route>
-          <Route path="/moviesuggestion" element={<MovieSuggestion />}></Route>
+          <Route path="/moviesuggestion" element={<Recommendations />}></Route>
         </Route>
       </Routes>
     </>

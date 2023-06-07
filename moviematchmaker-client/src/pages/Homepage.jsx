@@ -4,12 +4,15 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 
 const Homepage = () => {
-  const { isLoggedIn, isFormSubmitted } = useContext(AuthContext);
+  const { isLoading, isLoggedIn, isFormSubmitted } = useContext(AuthContext);
 
   useEffect(() => {
     console.log("isFormSubmitted:", isFormSubmitted);
   }, [isFormSubmitted]);
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
   return (
     <>
       {isLoggedIn && !isFormSubmitted ? (

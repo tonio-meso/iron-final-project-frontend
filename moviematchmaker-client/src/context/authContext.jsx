@@ -25,7 +25,7 @@ const AuthContextWrapper = ({ children }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log(response.data);
+        console.log("response.data from authcontext", response.data);
 
         // Set the received user infos to my user state
         // Set is logged in to true.
@@ -48,19 +48,28 @@ const AuthContextWrapper = ({ children }) => {
       setIsLoading(false); // should be remove
     }
   };
-  // add here the possibility to log out
+  // when the userer log out
   const logout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("token"); // remove the token
+    localStorage.removeItem("isFormSubmitted"); // remove is submitted value
     setUser(null);
     setIsLoggedIn(false);
+    setIsFormSubmitted(false);
   };
 
   useEffect(() => {
     const fetchIsFormSubmitted = async () => {
       try {
         const response = await service.get("/api/form");
-        setIsFormSubmitted(response.data.isFormSubmitted);
-        localStorage.setItem("isFormSubmitted", response.data.isFormSubmitted);
+        console.log(response.data); // Add this line
+        const isFormSubmittedInLocalStorage =
+          localStorage.getItem("isFormSubmitted");
+        setIsFormSubmitted(isFormSubmittedInLocalStorage === "true"); // to convert the string in the local storage to boolean
+
+        localStorage.setItem(
+          "isFormSubmitted",
+          String(response.data.isFormSubmitted) // save it a string
+        );
         console.log("isFormSubmitted: on refresh", isFormSubmitted);
       } catch (error) {
         console.log(error);
@@ -70,13 +79,18 @@ const AuthContextWrapper = ({ children }) => {
     fetchIsFormSubmitted();
   }, []);
 
+  // Add new useEffect here
+  useEffect(() => {
+    console.log("isFormSubmitted: on refresh", isFormSubmitted);
+  }, [isFormSubmitted]);
+
   const values = {
+    isLoading, // should be remove
     user,
     setUser,
     authenticateUser,
     setIsLoggedIn,
     isLoggedIn,
-    isLoading, // should be remove
     isFormSubmitted, // Add isFormSubmitted to the values
     setIsFormSubmitted, // Add setIsFormSubmitted to the values
     logout,

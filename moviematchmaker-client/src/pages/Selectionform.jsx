@@ -2,38 +2,57 @@ import React, { useState, useEffect, useContext } from "react";
 import service from "./../service/api";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
-import axios from "axios";
 
 const PreferenceForm = () => {
-  const { user, submitForm, setIsFormSubmitted } = useContext(AuthContext); // Add setIsFormSubmitted from the AuthContext
+  const { isLoading, user, setUser, setIsFormSubmitted } =
+    useContext(AuthContext);
   const [genres, setGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [yearPreferences, setYearPreferences] = useState("");
-  const navigate = useNavigate(); // use to redirect on the swipepage after the submission of the form
+  const navigate = useNavigate();
 
-  // Fetch genres from server when component mounts
   useEffect(() => {
-    const getAllGenres = async () => {
+    const fetchData = async () => {
       try {
-        const response = await service.get("/api/allgenres");
-        console.log("response.data from the get", response.data);
-        response.data.forEach((genre) => {
-          // console.log("Genre:", genre);
-        });
-        setGenres(response.data); // set the genredata to state
-        // console.log("Fetched Genres:", genres);
+        const genresResponse = await service.get("/api/allgenres");
+        setGenres(genresResponse.data);
+        const userDataResponse = await service.get("/auth/verify");
+        const userData = userDataResponse.data;
+        setUser(userData);
       } catch (error) {
-        console.error("Error fetching genres:", error);
+        console.error("Error fetching data:", error);
       }
     };
-    getAllGenres();
+    fetchData();
   }, []);
 
-  // Handle form submission
+  useEffect(() => {
+    const fetchForm = async () => {
+      try {
+        const formResponse = await service.get(`/api/form/${user._id}`);
+        if (formResponse.data.isFormSubmitted) {
+          setIsFormSubmitted(true);
+          localStorage.setItem("isFormSubmitted", true);
+          navigate("/swipePage");
+        }
+      } catch (error) {
+        console.error("Error fetching form:", error);
+      }
+    };
+
+    if (user) {
+      fetchForm();
+    }
+  }, [user]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // check if at least 3 genres are selected, but not more than 4
+    if (!user || !user._id) {
+      console.error("User data is missing");
+      return;
+    }
+
     if (selectedGenres.length < 3 || selectedGenres.length > 4) {
       alert("Please select between 3 and 4 genres.");
       return;
@@ -41,34 +60,23 @@ const PreferenceForm = () => {
 
     try {
       await service.post("/api/form", {
-        // add URL and body object
         preferred_genres: selectedGenres,
         year_preferences: yearPreferences,
         user: user._id,
       });
 
-      // await axios.post("http://localhost:3000/api/form", {
-      //   preferred_genres: selectedGenres,
-      //   year_preferences: yearPreferences,
-      //   user: user._id,
-      //   headers: {
-      //     Authorization: `Bearer ${localStorage.getItem("token")}`,
-      //   },
-      // });
-
       alert("Preferences submitted successfully!");
-      setSelectedGenres([]); // clear selected genres after successful submission
-      setYearPreferences(""); // clear year preferences after successful submission
-      setIsFormSubmitted(true); // Set isFormSubmitted to true
-      localStorage.setItem("isFormSubmitted", true); // Set isFormSubmitted in localStorage
-      navigate("/swipePage"); // redirect to the swipepage after the submission form
+      setSelectedGenres([]);
+      setYearPreferences("");
+      setIsFormSubmitted(true);
+      localStorage.setItem("isFormSubmitted", true);
+      navigate("/swipePage");
     } catch (error) {
       console.error("Error submitting preferences:", error);
     }
   };
+
   const handleGenreChange = (event) => {
-    // console.log("Checkbox value:", event.target.value);
-    // console.log("Checkbox checked:", event.target.checked);
     if (event.target.checked) {
       if (selectedGenres.length === 4) {
         event.preventDefault();
@@ -81,8 +89,11 @@ const PreferenceForm = () => {
         selectedGenres.filter((genreId) => genreId !== event.target.value)
       );
     }
-    console.log("Selected Genres:", selectedGenres);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   // Render the form
   return (
