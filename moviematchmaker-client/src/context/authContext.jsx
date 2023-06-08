@@ -12,6 +12,7 @@ const AuthContextWrapper = ({ children }) => {
   useEffect(() => {
     // execute authuser
     authenticateUser();
+    fetchIsFormSubmitted();
   }, []);
 
   const authenticateUser = async () => {
@@ -57,35 +58,26 @@ const AuthContextWrapper = ({ children }) => {
     setIsFormSubmitted(false);
   };
 
-  useEffect(() => {
-    const fetchIsFormSubmitted = async () => {
-      try {
-        const response = await service.get("/api/form");
-        console.log(response.data); // Add this line
-        const isFormSubmittedInLocalStorage =
-          localStorage.getItem("isFormSubmitted");
-        setIsFormSubmitted(isFormSubmittedInLocalStorage === "true"); // to convert the string in the local storage to boolean
+  const fetchIsFormSubmitted = async () => {
+    try {
+      const response = await service.get("/api/form");
+      console.log(response.data.isFormSubmitted); // Add this line
+      // const isFormSubmittedInLocalStorage =
+      //   localStorage.getItem("isFormSubmitted");
+      setIsFormSubmitted(response.data.isFormSubmitted); // to convert the string in the local storage to boolean
 
-        localStorage.setItem(
-          "isFormSubmitted",
-          String(response.data.isFormSubmitted) // save it a string
-        );
-        console.log("isFormSubmitted: on refresh", isFormSubmitted);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchIsFormSubmitted();
-  }, []);
-
-  // Add new useEffect here
-  useEffect(() => {
-    console.log("isFormSubmitted: on refresh", isFormSubmitted);
-  }, [isFormSubmitted]);
+      localStorage.setItem(
+        "isFormSubmitted",
+        String(response.data.isFormSubmitted) // save it a string
+      );
+      console.log("isFormSubmitted: on refresh", isFormSubmitted);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const values = {
-    isLoading, // should be remove
+    isLoading,
     user,
     setUser,
     authenticateUser,
@@ -93,6 +85,7 @@ const AuthContextWrapper = ({ children }) => {
     isLoggedIn,
     isFormSubmitted, // Add isFormSubmitted to the values
     setIsFormSubmitted, // Add setIsFormSubmitted to the values
+    fetchIsFormSubmitted,
     logout,
   };
   return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;

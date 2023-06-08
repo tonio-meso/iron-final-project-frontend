@@ -4,38 +4,44 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
 
 const Homepage = () => {
+  // Retrieve data from the AuthContext
   const { isLoading, isLoggedIn, isFormSubmitted } = useContext(AuthContext);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    console.log("isFormSubmitted:", isFormSubmitted);
-  }, [isFormSubmitted]);
+    // Set the isReady state once loading is complete
+    if (!isLoading) {
+      setIsReady(true);
+    }
+  }, [isLoading]);
 
-  if (isLoading) {
+  if (!isReady) {
     return <div>Loading...</div>;
   }
+
   return (
     <>
-      {isLoggedIn && !isFormSubmitted ? (
+      {isLoggedIn && !isFormSubmitted && (
         <div>
           <Link to="/selectionform">
-            <button>Learn about my movie tastes</button>
+            <button>Tell us what kind of movies you like</button>
           </Link>
         </div>
-      ) : null}
-      {isLoggedIn && isFormSubmitted ? (
+      )}
+      {isLoggedIn && isFormSubmitted && (
         <div>
           <Link to="/swipepage">
-            <button>Start to swipe</button>
+            <button>How did you like these movies?</button>
           </Link>
           <Link to="/moviesuggestion">
-            <button>I want to watch a movie right now</button>
+            <button>Give me a movie to watch right now</button>
           </Link>
         </div>
-      ) : null}
+      )}
       {!isLoggedIn ? (
         <div>
           <Link to="/myaccount">
-            <button>Learn about my movie tastes</button>
+            <button>First of all create an account here</button>
           </Link>
         </div>
       ) : null}

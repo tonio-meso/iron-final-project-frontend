@@ -2,20 +2,27 @@ import React, { useState, useEffect, useContext } from "react";
 import service from "./../service/api";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
+import "./Selectionform.css";
 
 const PreferenceForm = () => {
+  // Retrieve data from the AuthContext
   const { isLoading, user, setUser, setIsFormSubmitted } =
     useContext(AuthContext);
+
+  // State variables
   const [genres, setGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [yearPreferences, setYearPreferences] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Fetch genres and user data
     const fetchData = async () => {
       try {
+        // Fetch genres
         const genresResponse = await service.get("/api/allgenres");
         setGenres(genresResponse.data);
+        // Fetch user data
         const userDataResponse = await service.get("/auth/verify");
         const userData = userDataResponse.data;
         setUser(userData);
@@ -23,13 +30,15 @@ const PreferenceForm = () => {
         console.error("Error fetching data:", error);
       }
     };
+    // Call fetchData
     fetchData();
   }, []);
 
   useEffect(() => {
+    // Check if the form is submitted
     const fetchForm = async () => {
       try {
-        const formResponse = await service.get(`/api/form/${user._id}`);
+        const formResponse = await service.get("/api/form");
         if (formResponse.data.isFormSubmitted) {
           setIsFormSubmitted(true);
           localStorage.setItem("isFormSubmitted", true);
@@ -39,7 +48,7 @@ const PreferenceForm = () => {
         console.error("Error fetching form:", error);
       }
     };
-
+    // Fetch form data when user data is available
     if (user) {
       fetchForm();
     }
@@ -59,6 +68,7 @@ const PreferenceForm = () => {
     }
 
     try {
+      // Submit preferences
       await service.post("/api/form", {
         preferred_genres: selectedGenres,
         year_preferences: yearPreferences,
@@ -92,6 +102,7 @@ const PreferenceForm = () => {
   };
 
   if (isLoading) {
+    // Display loading state
     return <div>Loading...</div>;
   }
 
@@ -120,7 +131,9 @@ const PreferenceForm = () => {
           onChange={(e) => setYearPreferences(e.target.value)}
         />
       </label>
-      <button type="submit">Submit</button>
+      <button type="submit">
+        <i className="fa fa-paper-plane"></i> Submit
+      </button>
     </form>
   );
 };

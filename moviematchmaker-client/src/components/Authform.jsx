@@ -10,7 +10,8 @@ const AuthForm = ({ mode }) => {
   const [pseudo, setPseudo] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { authenticateUser, setIsLoggedIn } = useContext(AuthContext);
+  const { authenticateUser, setIsLoggedIn, fetchIsFormSubmitted } =
+    useContext(AuthContext);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,6 +28,7 @@ const AuthForm = ({ mode }) => {
         localStorage.setItem("token", response.data.authToken);
         setError("");
         setIsLoggedIn(true);
+        await fetchIsFormSubmitted();
         navigate("/"); // redirect to home after connexion
       }
     } catch (error) {

@@ -6,7 +6,7 @@
   border: 1px solid #ddd;
   padding: 20px;
   margin: 20px auto;
-  width: 80%;
+  width: 55%;
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.19), 0px 6px 6px rgba(0, 0, 0, 0.23);
 }
 
@@ -31,4 +31,19 @@
 
 .card button:hover {
   background-color: #23303e;
+}
+
+@media screen and (max-width: 769px) {
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 20px auto;
+    width: 70%;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.19),
+      0px 6px 6px rgba(0, 0, 0, 0.23);
+  }
 }

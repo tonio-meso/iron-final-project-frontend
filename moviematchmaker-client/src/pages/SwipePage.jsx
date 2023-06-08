@@ -8,6 +8,9 @@ function SwipePage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    fetchMovies();
+  }, []);
   const fetchMovies = async () => {
     try {
       console.log("Fetching movies...");
@@ -18,10 +21,6 @@ function SwipePage() {
       console.error("Failed to fetch movies:", error);
     }
   };
-
-  useEffect(() => {
-    fetchMovies();
-  }, []);
 
   const handleFetchMoreMovies = () => {
     setCurrentIndex(0); // reset the index
@@ -45,6 +44,7 @@ function SwipePage() {
         `Successfully sent ${swipeType} action for movie: ${movie._id}`
       );
       setCurrentIndex(currentIndex + 1);
+      console.log(currentIndex); // here i console.log the index
     } catch (error) {
       console.error(`Failed to ${swipeType} movie:`, error);
     }
@@ -55,9 +55,12 @@ function SwipePage() {
     return (
       <div>
         <div>No more movies!</div>
-        <button onClick={handleFetchMoreMovies}>Fetch More Movies</button>
+        <button onClick={handleFetchMoreMovies}>
+          Be a Movie critic! The more information you give us the better our
+          recommendations will be!
+        </button>
         <button onClick={() => navigate("/moviesuggestion")}>
-          Go to Movie Suggestions
+          Give me a movie to watch right now
         </button>
       </div>
     );

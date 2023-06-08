@@ -24,9 +24,8 @@ const Myaccount = () => {
 
   return (
     <div>
-      <h1>Welcome, {user && user.name ? user.name : ""}!</h1>
+      <h1>Welcome, {user && user.pseudo ? user.pseudo : ""}!</h1>
       <p>Email: {user && user.email ? user.email : ""}</p>
-      {/* Additional account details */}
       <button onClick={handleLogout}>Logout</button>
     </div>
   );
