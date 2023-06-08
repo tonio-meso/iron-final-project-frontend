@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import service from "./../service/api";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
-import "./Selectionform.css";
+import "./selectionform.css";
 
 const PreferenceForm = () => {
   // Retrieve data from the AuthContext
