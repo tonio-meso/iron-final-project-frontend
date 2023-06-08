@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 // import axios from "axios";
 import service from "../service/api";
+import "./Mycollection.css";
 
 // const token = localStorage.getItem("token");
 
@@ -70,7 +71,7 @@ const MyCollection = () => {
   <button onClick={() => handleDeleteMovie(movie._id)}>Delete</button>;
 
   return (
-    <div>
+    <div className="my-collection">
       <h1>My Collection</h1>
       <table>
         <thead>
@@ -111,7 +112,10 @@ const MyCollection = () => {
                 </select>
               </td>
               <td>
-                <button onClick={() => handleDeleteMovie(movie._id)}>
+                <button
+                  className="delete-button"
+                  onClick={() => handleDeleteMovie(movie._id)}
+                >
                   Delete
                 </button>
               </td>
@@ -120,7 +124,7 @@ const MyCollection = () => {
         </tbody>
       </table>
 
-      <div>
+      <div className="pagination">
         <button
           disabled={currentPage === 1}
           onClick={() => handlePageChange(currentPage - 1)}

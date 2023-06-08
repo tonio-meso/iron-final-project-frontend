@@ -54,12 +54,15 @@ function SwipePage() {
   if (!movie) {
     return (
       <div>
-        <div>No more movies!</div>
-        <button onClick={handleFetchMoreMovies}>
+        <h1>No more movies!</h1>
+        <button className="homepage" onClick={handleFetchMoreMovies}>
           Be a Movie critic! The more information you give us the better our
           recommendations will be!
         </button>
-        <button onClick={() => navigate("/moviesuggestion")}>
+        <button
+          className="homepage"
+          onClick={() => navigate("/moviesuggestion")}
+        >
           Give me a movie to watch right now
         </button>
       </div>

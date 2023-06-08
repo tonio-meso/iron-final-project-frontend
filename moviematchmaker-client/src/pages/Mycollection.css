@@ -1,16 +1,108 @@
-.movie-table {
-  width: 100%;
-  border-collapse: collapse;
+.my-collection {
+  /* max-width: 800px; */
+  margin: 0 auto;
+  /* padding: 20px; */
+}
+
+h1 {
+  font-size: 24px;
   margin-bottom: 20px;
 }
 
-.movie-table th,
-.movie-table td {
-  padding: 10px;
-  border: 1px solid #ccc;
+/* table {
+  width: 90%;
+  border-collapse: collapse;
+  margin-left: 3rem;
+} */
+
+/* th,
+td {
+  padding: 1px;
+  text-align: left;
+  border-collapse: separate;
+  margin-left: 0;
+} */
+
+thead {
+  background-color: #c5cedc;
 }
 
 .movie-poster {
   width: 100px;
-  height: auto;
+}
+
+select {
+  padding: 5px;
+}
+.delete-button {
+  background-color: #ff0000;
+  color: #fff;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.pagination {
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #f2f2f2;
+  cursor: pointer;
+}
+
+.pagination button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 769px) {
+  /* .my-collection {
+    display: flex;
+    flex-direction: column;
+    max-width: 78%;
+    margin-left: 8%;
+    margin-bottom: 1rem;
+  } */
+
+  /* table.smaller {
+    width: 90%;
+    width: 90%;
+    border-collapse: collapse;
+    margin-left: -3rem;
+  } */
+
+  .delete-button {
+    background-color: #ff0000;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+  }
+
+  /* th,
+  td {
+    padding: 1px;
+    text-align: left;
+    border-collapse: separate;
+    margin-left: 0;
+  } */
+
+  .pagination button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: none;
+    background-color: #f2f2f2;
+    cursor: pointer;
+  }
+
+  .pagination button[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
